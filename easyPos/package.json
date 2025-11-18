@@ -1,0 +1,23 @@
+{
+  "name": "easyPos",
+  "version": "1.0.0",
+  "description": "A modern point of sale interface for managing transactions.",
+  "main": "src/js/app.js",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build step not defined'",
+    "test": "echo 'No tests defined'"
+  },
+  "keywords": [
+    "POS",
+    "point of sale",
+    "transaction",
+    "cashier"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}

@@ -1,0 +1,292 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9; 
+    margin: 0;
+    padding: 0;
+}
+
+.pos-container {
+    display: flex;
+    flex-direction: row; 
+    width: 100%; 
+    height: 100vh; 
+    margin: 0; 
+    box-shadow: none; 
+    border-radius: 0;
+    overflow: hidden; 
+    position: relative; 
+}
+
+.menu-section {
+    flex: 0 0 55%; 
+    min-width: 300px; 
+    background-color: #ffffff;
+    padding: 10px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box; 
+}
+
+.menu-section h2 {
+    color: #1a1a1a;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 8px;
+    margin-top: 0;
+    font-weight: 600;
+}
+
+.category-header {
+    background-color: #e9ecef;
+    color: #343a40;
+    padding: 6px 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+    gap: 8px; 
+    padding: 8px 0;
+}
+
+.product-item {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 5px; 
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px; 
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.1s;
+    user-select: none;
+}
+
+.product-item:hover {
+    background-color: #0056b3;
+}
+
+.product-item:active {
+    transform: scale(0.98);
+}
+
+.transaction-section {
+    flex: 1; 
+    min-width: 300px; 
+    background-color: #343a40; 
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+    box-sizing: border-box;
+    overflow-y: auto; 
+}
+
+.transaction-header-info {
+    background-color: #212529;
+    padding: 10px 15px;
+    font-size: 13px;
+    color: #f8f9fa;
+    border-bottom: 1px solid #495057;
+    flex-shrink: 0; 
+}
+
+.item-list-view {
+    flex-grow: 1; 
+    overflow-y: auto;
+    padding: 0 10px;
+    list-style: none;
+    margin: 0;
+}
+
+.item-list-view li {
+    padding: 5px; 
+    font-size: 13px; 
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer; 
+}
+
+.item-list-view li.selected {
+    background-color: #009688; 
+}
+
+.item-price {
+    width: 60px; 
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.transaction-summary {
+    flex-shrink: 0;
+    background-color: #212529;
+    padding: 12px 15px; 
+    border-top: 3px solid #ffc107;
+}
+
+.total-line {
+    font-size: 14px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.grand-total {
+    font-size: 18px; 
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+.action-buttons {
+    flex-shrink: 0;
+    padding: 0 15px 10px; 
+    background-color: #212529;
+}
+
+.action-buttons button,
+.action-buttons input {
+    margin-top: 8px;
+    width: 100%;
+    border-radius: 6px;
+    font-weight: 600;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
+}
+
+.void-button {
+    background-color: #dc3545;
+    color: white;
+    font-size: 14px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.void-button.ready {
+    opacity: 1;
+}
+
+.transact-button {
+    background-color: #28a745; 
+    color: white;
+    font-size: 16px;
+    padding: 15px 10px; 
+}
+
+.action-buttons input {
+    background-color: #495057;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+
+.action-buttons input::placeholder {
+    color: #bbb;
+}
+
+#apply-discount-btn { 
+    background-color: #28a745; 
+    color: white; 
+}
+
+#cancel-discount-btn { 
+    background-color: #007bff; 
+    color: white; 
+}
+
+.payment-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%; 
+    height: 100%;
+    background-color: rgba(43, 49, 54, 0.98); 
+    z-index: 10; 
+    display: none; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.overlay-content-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+}
+
+.overlay-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffc107;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.discount-overlay-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px; 
+}
+
+.discount-overlay-grid button {
+    background-color: #f8f9fa; 
+    color: #343a40; 
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.overlay-button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.payment-overlay button {
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border: none;
+    margin: 0; 
+    width: 100%; 
+}
+
+#btn-overlay-cash { 
+    background-color: #ffc107; 
+    color: #343a40; 
+}
+
+#btn-overlay-card { 
+    background-color: #17a2b8; 
+    color: white; 
+}
+
+#btn-overlay-voucher { 
+    background-color: #6c757d; 
+    color: white; 
+    grid-column: 1 / span 2; 
+}
+
+#btn-cancel-payment { 
+    background-color: #dc3545; 
+    color: white;
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 16px;
+}

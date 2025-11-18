@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern POS Interface</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="pos-container">
+
+        <!-- ===== LEFT SIDE: PRODUCT MENU (55% width) ===== -->
+        <section class="menu-section">
+            <h2>🛍️ Product Menu</h2>
+
+            <div class="category-header">Hot Beverages</div>
+            <div class="product-grid">
+                <button class="product-item" data-price="2.50" data-name="Espresso">Espresso</button>
+                <button class="product-item" data-price="4.50" data-name="Latte">Latte</button>
+                <button class="product-item" data-price="4.25" data-name="Cappuccino">Cappuccino</button>
+                <button class="product-item" data-price="2.00" data-name="Tea">Tea</button>
+            </div>
+
+            <div class="category-header">Cold Drinks</div>
+            <div class="product-grid">
+                <button class="product-item" data-price="4.75" data-name="Iced Coffee">Iced Coffee</button>
+                <button class="product-item" data-price="5.50" data-name="Smoothie">Smoothie</button>
+                <button class="product-item" data-price="1.50" data-name="Water">Water</button>
+                <button class="product-item" data-price="2.25" data-name="Soda">Soda</button>
+                <button class="product-item" data-price="3.00" data-name="Juice">Juice</button>
+            </div>
+
+            <div class="category-header">Food & Bakery</div>
+            <div class="product-grid">
+                <button class="product-item" data-price="3.00" data-name="Croissant">Croissant</button>
+                <button class="product-item" data-price="6.50" data-name="Sandwich">Sandwich</button>
+                <button class="product-item" data-price="2.00" data-name="Donut">Donut</button>
+            </div>
+            
+        </section>
+
+        <!-- ===== PAYMENT OVERLAY (New Element) ===== -->
+        <section class="payment-overlay" id="payment-overlay">
+            <div class="overlay-content-wrapper">
+                <div class="overlay-title">Select Payment Method & Options</div>
+                
+                <!-- Discount Buttons are now inside the payment overlay -->
+                <div class="discount-overlay-grid">
+                    <button id="btn-overlay-discount-percent">DISCOUNT %</button>
+                    <button id="btn-overlay-discount-amount">DISCOUNT R</button>
+                </div>
+
+                <div class="overlay-button-grid">
+                    <button id="btn-overlay-cash">CASH</button>
+                    <button id="btn-overlay-card">CARD</button>
+                    <button id="btn-overlay-voucher">VOUCHER / GIFT CARD</button>
+                </div>
+                
+                <button id="btn-cancel-payment">CANCEL TRANSACTION</button>
+            </div>
+        </section>
+
+
+        <!-- ===== RIGHT SIDE: TRANSACTION WINDOW (45% width) ===== -->
+        <section class="transaction-section">
+            
+            <!-- Transaction Details -->
+            <div class="transaction-header-info">
+                <!-- This area displays the Cashier, Transaction ID, and the real-time Date | Time. -->
+                <div id="cashier-info">Cashier: John Smith</div>
+                <div id="transaction-id-info">Trans #: 123456</div>
+                <div id="datetime-info">Date: 11/18/2025 | Time: 5:02 PM</div>
+            </div>
+
+            <!-- The list where items are "rung up" -->
+            <ul class="item-list-view">
+                <!-- Items are added here dynamically -->
+            </ul>
+
+            <!-- Totals and Payment Summary -->
+            <div class="transaction-summary">
+                <div class="total-line">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R0.00</span>
+                </div>
+                <div class="total-line discount-line">
+                    <span>Discount:</span>
+                    <span id="discount-value">R0.00</span>
+                </div>
+                <div class="total-line">
+                    <span>Tax (8%):</span>
+                    <span id="tax">R0.00</span>
+                </div>
+                <div class="total-line grand-total">
+                    <span>TOTAL DUE:</span>
+                    <span id="grand-total">R0.00</span>
+                </div>
+            </div>
+            
+            <!-- Action Buttons Container -->
+            <div class="action-buttons" id="action-buttons-container">
+                <!-- Content injected by JavaScript (Void, Transact) -->
+            </div>
+        </section>
+
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/payments.js"></script>
+</body>
+</html>
