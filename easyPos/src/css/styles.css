@@ -1,292 +1,773 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f9; 
-    margin: 0;
-    padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
 }
 
 .pos-container {
-    display: flex;
-    flex-direction: row; 
-    width: 100%; 
-    height: 100vh; 
-    margin: 0; 
-    box-shadow: none; 
-    border-radius: 0;
-    overflow: hidden; 
-    position: relative; 
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
 }
 
+/* ===== PRODUCT MENU (dark theme to match transaction window) ===== */
 .menu-section {
-    flex: 0 0 55%; 
-    min-width: 300px; 
-    background-color: #ffffff;
-    padding: 10px; 
-    overflow-y: auto; 
-    overflow-x: hidden;
-    border-right: 1px solid #ddd;
-    box-sizing: border-box; 
+  flex: 0 0 55%;
+  min-width: 300px;
+  background-color: #343a40;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #f8f9fa;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative; /* allow footer positioning inside the pane */
+  overflow-y: auto; /* product area scrolls if content is long */
+  padding-bottom: 96px; /* reserve space so footer never overlays content */
 }
 
+/* footer/till block fixed at bottom of menu-section (not overlaying content) */
+.menu-top {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px; /* sit at very bottom of the menu pane */
+  background: #0b0b0b; /* same dark band as transaction header */
+  padding: 14px 18px; /* comfortable padding */
+  border-radius: 8px;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.45);
+  z-index: 6;
+  width: calc(100% - 24px);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+/* single-line row layout, evenly spaced */
+.menu-top-row {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+/* make each column take equal width and center content */
+.menu-top-row > * {
+  flex: 1 1 0;
+  text-align: center;
+  color: #cfd6db;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* left-most store name should be left-aligned for readability */
+.menu-top-row .pos-name {
+  text-align: left;
+  font-weight: 700;
+  color: #ffffff;
+  padding-left: 4px;
+}
+
+/* ensure footer area does not cover product buttons on small screens */
+@media (max-height: 700px) {
+  .menu-section {
+    padding-bottom: 110px;
+  }
+  .menu-top {
+    padding: 10px 12px;
+    bottom: 8px;
+  }
+  .menu-top-row > * {
+    font-size: 0.9rem;
+  }
+}
+
+/* top POS summary block (black band similar to transaction header) */
+.menu-top {
+  background: #0b0b0b;
+  padding: 12px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.menu-top .pos-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+.menu-top .pos-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #d5d9db;
+}
+
+/* move down and align yellow underline with transaction header */
 .menu-section h2 {
-    color: #1a1a1a;
-    border-bottom: 3px solid #007bff;
-    padding-bottom: 8px;
-    margin-top: 0;
-    font-weight: 600;
+  /* if present anywhere still, keep small styling but we moved to menu-top */
+  color: #f8f9fa;
+  padding-bottom: 8px;
+  margin-top: 18px; /* move the yellow line down */
+  font-weight: 600;
+  display: none; /* hidden since menu-top used */
 }
 
+/* category header unchanged but ensure spacing */
 .category-header {
-    background-color: #e9ecef;
-    color: #343a40;
-    padding: 6px 10px;
-    margin-top: 10px;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #f1f3f5;
+  padding: 6px 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
-    gap: 8px; 
-    padding: 8px 0;
+/* === Payment buttons: make them match discount look (yellow border accent) === */
+.pay-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #ffcc00; /* yellow border for all payment buttons */
+  background: linear-gradient(180deg, #34383c, #2a2d30);
+  color: #f8f9fa;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.pay-btn:hover {
+  background: linear-gradient(180deg, #3c4246, #32363a);
+  transform: translateY(-1px);
 }
 
+/* keep discount button accent stronger */
+.pay-discount {
+  box-shadow: 0 6px 22px rgba(255, 204, 0, 0.06) inset;
+}
+
+/* === Discount modal: dark theme + styled buttons to match payment modal === */
+.discount-modal {
+  position: relative;
+  width: 340px;
+  max-width: calc(100% - 24px);
+  background: #232528; /* match amount-modal background */
+  color: #f8f9fa;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.6), 0 6px 18px rgba(0, 0, 0, 0.4);
+  z-index: 1130;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Apply / Cancel buttons in discount modal */
+.discount-modal-footer .btn-apply {
+  background: linear-gradient(180deg, #28a745, #1f8a3a);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(40, 167, 69, 0.12);
+}
+.discount-modal-footer .btn-apply:hover {
+  transform: translateY(-1px);
+}
+
+.discount-modal-footer .btn-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e6eef1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.discount-modal-footer .btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* === Highlight discount amount field with yellow border === */
+#discount-input-amount input {
+  border-color: #ffcc00 !important;
+  box-shadow: 0 0 0 6px rgba(255, 204, 0, 0.06);
+}
+
+/* ensure discount input container fits and centered */
+.discount-inputs {
+  display: flex;
+  justify-content: center;
+}
+.discount-input {
+  max-width: 320px;
+  width: 100%;
+  margin: 0.25rem auto;
+  box-sizing: border-box;
+}
+
+/* === transaction header yellow rule right after date (above item list) === */
+.transaction-header-info {
+  padding: 10px 12px;
+  border-bottom: 3px solid #ffc107; /* yellow border under header */
+  margin-bottom: 12px;
+  background: #0b0b0b; /* keep dark band similar to menu-top */
+  border-radius: 6px;
+}
+
+/* move the product menu yellow line to align with above header */
+.menu-section .category-header:first-of-type {
+  margin-top: 18px;
+}
+
+/* product buttons - dark variant */
 .product-item {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 5px; 
-    text-align: center;
-    cursor: pointer;
-    font-size: 12px; 
-    font-weight: 500;
-    transition: background-color 0.2s, transform 0.1s;
-    user-select: none;
+  background-color: #495057;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  padding: 10px 5px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.15s, transform 0.08s, box-shadow 0.12s;
+  user-select: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .product-item:hover {
-    background-color: #0056b3;
+  background-color: #5a6268;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 .product-item:active {
-    transform: scale(0.98);
+  transform: translateY(1px) scale(0.995);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
 }
 
 .transaction-section {
-    flex: 1; 
-    min-width: 300px; 
-    background-color: #343a40; 
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    height: 100vh; 
-    box-sizing: border-box;
-    overflow-y: auto; 
+  flex: 1;
+  min-width: 300px;
+  background-color: #343a40;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .transaction-header-info {
-    background-color: #212529;
-    padding: 10px 15px;
-    font-size: 13px;
-    color: #f8f9fa;
-    border-bottom: 1px solid #495057;
-    flex-shrink: 0; 
+  background-color: #212529;
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #f8f9fa;
+  border-bottom: 1px solid #495057;
+  flex-shrink: 0;
 }
 
 .item-list-view {
-    flex-grow: 1; 
-    overflow-y: auto;
-    padding: 0 10px;
-    list-style: none;
-    margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 10px;
+  list-style: none;
+  margin: 0;
 }
 
 .item-list-view li {
-    padding: 5px; 
-    font-size: 13px; 
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer; 
+  padding: 5px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .item-list-view li.selected {
-    background-color: #009688; 
+  background-color: #009688;
 }
 
 .item-price {
-    width: 60px; 
-    text-align: right;
-    flex-shrink: 0;
+  width: 60px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .transaction-summary {
-    flex-shrink: 0;
-    background-color: #212529;
-    padding: 12px 15px; 
-    border-top: 3px solid #ffc107;
+  flex-shrink: 0;
+  background-color: #212529;
+  padding: 12px 15px;
+  border-top: 3px solid #ffc107;
 }
 
 .total-line {
-    font-size: 14px;
-    margin-bottom: 4px;
-    display: flex;
-    justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .grand-total {
-    font-size: 18px; 
-    margin-top: 6px;
-    font-weight: bold;
+  font-size: 18px;
+  margin-top: 6px;
+  font-weight: bold;
 }
 
 .action-buttons {
-    flex-shrink: 0;
-    padding: 0 15px 10px; 
-    background-color: #212529;
+  flex-shrink: 0;
+  padding: 0 15px 10px;
+  background-color: #212529;
 }
 
 .action-buttons button,
 .action-buttons input {
-    margin-top: 8px;
-    width: 100%;
-    border-radius: 6px;
-    font-weight: 600;
-    box-sizing: border-box;
-    padding: 10px;
-    border: none;
+  margin-top: 8px;
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 600;
+  box-sizing: border-box;
+  padding: 10px;
+  border: none;
 }
 
 .void-button {
-    background-color: #dc3545;
-    color: white;
-    font-size: 14px;
-    opacity: 0.5;
-    transition: opacity 0.2s;
+  background-color: #dc3545;
+  color: white;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
 }
 
 .void-button.ready {
-    opacity: 1;
+  opacity: 1;
 }
 
 .transact-button {
-    background-color: #28a745; 
-    color: white;
-    font-size: 16px;
-    padding: 15px 10px; 
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  padding: 15px 10px;
 }
 
 .action-buttons input {
-    background-color: #495057;
-    color: white;
-    font-size: 16px;
-    text-align: center;
+  background-color: #495057;
+  color: white;
+  font-size: 16px;
+  text-align: center;
 }
 
 .action-buttons input::placeholder {
-    color: #bbb;
+  color: #bbb;
 }
 
-#apply-discount-btn { 
-    background-color: #28a745; 
-    color: white; 
+#apply-discount-btn {
+  background-color: #28a745;
+  color: white;
 }
 
-#cancel-discount-btn { 
-    background-color: #007bff; 
-    color: white; 
+#cancel-discount-btn {
+  background-color: #007bff;
+  color: white;
 }
 
+/* Left-side payment overlay (overlays Product menu, sits left of transaction pane) */
 .payment-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 55%; 
-    height: 100%;
-    background-color: rgba(43, 49, 54, 0.98); 
-    z-index: 10; 
-    display: none; 
-    flex-direction: column;
-    justify-content: flex-start; 
-    padding: 20px;
-    box-sizing: border-box;
-    color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 55%; /* covers product menu area */
+  max-width: 640px;
+  background: rgba(0, 0, 0, 0.35); /* semi-transparent backdrop */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center the payment panel within the product menu side */
+  z-index: 1100;
+  padding-left: 0;
+  box-sizing: border-box;
 }
 
-.overlay-content-wrapper {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; 
+/* inner white panel -> dark panel to match app theme */
+.overlay-left-wrapper {
+  width: 100%;
+  max-width: 420px;
+  background: #2b3036; /* dark panel */
+  color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+  overflow: visible;
+  padding: 14px;
+  margin: 0 auto; /* center inside the overlay */
+  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.overlay-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffc107;
-    margin-bottom: 20px;
-    text-align: center;
+/* header */
+.overlay-left-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.overlay-left-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #f8f9fa;
+}
+.overlay-close {
+  color: #cfd6db;
+  background: transparent;
+  border: 0;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.discount-overlay-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 30px; 
+/* body */
+.overlay-left-body {
+  padding: 6px 0;
 }
-
-.discount-overlay-grid button {
-    background-color: #f8f9fa; 
-    color: #343a40; 
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-}
-
 .overlay-button-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
 }
 
-.payment-overlay button {
-    padding: 20px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    border: none;
-    margin: 0; 
-    width: 100%; 
+/* pay buttons - dark themed to match product buttons */
+.pay-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: linear-gradient(180deg, #3a4046, #2b3036);
+  color: #f8f9fa;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.pay-btn:hover {
+  background: linear-gradient(180deg, #4a5056, #34383c);
+  transform: translateY(-1px);
+}
+.pay-discount {
+  border-color: #ffcc00;
+  box-shadow: 0 6px 18px rgba(255, 204, 0, 0.06) inset;
 }
 
-#btn-overlay-cash { 
-    background-color: #ffc107; 
-    color: #343a40; 
+/* overlay helper */
+.overlay-help {
+  margin-top: 10px;
+  color: #bfc6ca;
+  font-size: 0.85rem;
 }
 
-#btn-overlay-card { 
-    background-color: #17a2b8; 
-    color: white; 
+/* Discount modal (dark) */
+#discount-modal-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1120;
+  pointer-events: none;
+}
+#discount-modal-container:not(.hidden) {
+  pointer-events: auto;
 }
 
-#btn-overlay-voucher { 
-    background-color: #6c757d; 
-    color: white; 
-    grid-column: 1 / span 2; 
+.discount-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  /* darker backdrop so stacked modals dim background more */
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 8px;
+  backdrop-filter: blur(1px);
 }
 
-#btn-cancel-payment { 
-    background-color: #dc3545; 
-    color: white;
-    margin-top: 20px;
-    padding: 15px;
-    font-size: 16px;
+.discount-modal {
+  position: relative;
+  width: 340px;
+  max-width: calc(100% - 24px);
+  background: #232528; /* match amount-modal background */
+  color: #f8f9fa;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.6), 0 6px 18px rgba(0, 0, 0, 0.4);
+  z-index: 1130;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.discount-modal-header {
+  margin-bottom: 8px;
+}
+.discount-modal-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #fff;
+}
+.discount-modal-body {
+  padding: 4px 0;
+}
+.discount-type-select {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #e6eef1;
+}
+
+/* constrain discount input width and center it */
+.discount-inputs {
+  display: flex;
+  justify-content: center;
+}
+.discount-input {
+  max-width: 320px;
+  width: 100%;
+  margin: 0.25rem auto;
+  box-sizing: border-box;
+}
+
+.discount-input input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  background: #495057;
+  color: #f1f3f5;
+  outline: none;
+}
+.discount-input input::placeholder {
+  color: #c5cace;
+}
+
+/* Amount / PIN style keypad modal */
+#payment-amount-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 1150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+#payment-amount-modal:not(.hidden) {
+  pointer-events: auto;
+}
+
+.amount-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78); /* darker backdrop to dim left overlay */
+  backdrop-filter: blur(1px);
+  border-radius: 8px;
+}
+
+.amount-modal {
+  position: relative;
+  width: 320px;
+  background: #232528;
+  color: #f6f7f8;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.7);
+  z-index: 1160;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.amount-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.amount-display {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* keypad grid */
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.keypad-grid button {
+  padding: 12px 6px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #34383c, #2a2d30);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.keypad-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.key-clear,
+.key-cancel,
+.key-ok {
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.key-clear {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e6eef1;
+}
+.key-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e6eef1;
+}
+.key-ok {
+  background: linear-gradient(180deg, #28a745, #1f8a3a);
+  color: #fff;
+  border: none;
+}
+
+/* ensure overlays stack darker */
+#discount-modal-container:not(.hidden) .discount-modal-backdrop,
+#payment-amount-modal:not(.hidden) .amount-modal-backdrop {
+  background: rgba(0, 0, 0, 0.78);
+}
+
+/* ensure utility .hidden remains available */
+.hidden {
+  display: none !important;
+}
+
+/* responsive tweak */
+@media (max-width: 920px) {
+  .payment-overlay {
+    width: 100%;
+    left: 0;
+  }
+  .overlay-left-wrapper {
+    max-width: 92%;
+    margin-left: 4px;
+  }
+}
+
+/* Menu header (same visual style as transaction header) */
+.menu-header.transaction-header-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background-color: #212529;
+  color: #f8f9fa;
+  border-bottom: 1px solid #495057;
+  margin-bottom: 8px;
+}
+.menu-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.menu-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* layout toggle button */
+.layout-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e6eef1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.layout-toggle:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* layout containers */
+.menu-layout {
+  display: block;
+}
+.menu-layout.hidden {
+  display: none !important;
+}
+
+/* Option B (tabs) */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tab-buttons {
+  display: flex;
+  gap: 8px;
+}
+.tab-btn {
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e6eef1;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tab-btn.active {
+  background: linear-gradient(180deg, #3b3b3b, #2f2f2f);
+  border-color: #ffc107;
+  color: #fff;
+}
+
+/* Option C (featured) */
+.featured-tiles {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.feature {
+  min-width: 140px;
+  font-weight: 700;
+}
+
+/* compact list */
+.compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ensure product-item styles apply in all layouts */
+.menu-section .product-item {
+  box-sizing: border-box;
+}
+
+/* small utility */
+.hidden {
+  display: none !important;
 }

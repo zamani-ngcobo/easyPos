@@ -1,112 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modern POS Interface</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <div class="pos-container">
+      <!-- ===== LEFT SIDE: PRODUCT MENU (55% width) ===== -->
+      <section class="menu-section">
+        <!-- Menu header (matches transaction details style) -->
+        <div class="menu-header transaction-header-info">
+          <div class="menu-header-right">
+            <button
+              id="layout-toggle"
+              class="layout-toggle"
+              title="Change menu layout"
+            >
+              Layout: A
+            </button>
+          </div>
+        </div>
 
-        <!-- ===== LEFT SIDE: PRODUCT MENU (55% width) ===== -->
-        <section class="menu-section">
-            <h2>🛍️ Product Menu</h2>
-
-            <div class="category-header">Hot Beverages</div>
-            <div class="product-grid">
-                <button class="product-item" data-price="2.50" data-name="Espresso">Espresso</button>
-                <button class="product-item" data-price="4.50" data-name="Latte">Latte</button>
-                <button class="product-item" data-price="4.25" data-name="Cappuccino">Cappuccino</button>
-                <button class="product-item" data-price="2.00" data-name="Tea">Tea</button>
+        <!-- Layout containers: only one visible at a time -->
+        <div id="layout-A" class="menu-layout">
+          <!-- Option A: Category sidebar + product grid + quick favs -->
+          <div class="menu-inner">
+            <div class="quick-favs" aria-label="Quick items">
+              <button
+                class="fav-item product-item"
+                data-price="4.50"
+                data-name="Latte"
+              >
+                Latte
+              </button>
+              <button
+                class="fav-item product-item"
+                data-price="3.00"
+                data-name="Croissant"
+              >
+                Croissant
+              </button>
+              <button
+                class="fav-item product-item"
+                data-price="2.50"
+                data-name="Espresso"
+              >
+                Espresso
+              </button>
+              <button
+                class="fav-item product-item"
+                data-price="5.50"
+                data-name="Smoothie"
+              >
+                Smoothie
+              </button>
             </div>
 
-            <div class="category-header">Cold Drinks</div>
-            <div class="product-grid">
-                <button class="product-item" data-price="4.75" data-name="Iced Coffee">Iced Coffee</button>
-                <button class="product-item" data-price="5.50" data-name="Smoothie">Smoothie</button>
-                <button class="product-item" data-price="1.50" data-name="Water">Water</button>
-                <button class="product-item" data-price="2.25" data-name="Soda">Soda</button>
-                <button class="product-item" data-price="3.00" data-name="Juice">Juice</button>
-            </div>
+            <div class="menu-body">
+              <nav class="category-sidebar" aria-label="Categories">
+                <ul>
+                  <li class="cat active" data-cat="hot">Hot Beverages</li>
+                  <li class="cat" data-cat="cold">Cold Drinks</li>
+                  <li class="cat" data-cat="food">Food & Bakery</li>
+                </ul>
+              </nav>
 
-            <div class="category-header">Food & Bakery</div>
-            <div class="product-grid">
-                <button class="product-item" data-price="3.00" data-name="Croissant">Croissant</button>
-                <button class="product-item" data-price="6.50" data-name="Sandwich">Sandwich</button>
-                <button class="product-item" data-price="2.00" data-name="Donut">Donut</button>
+              <div class="product-area">
+                <div class="product-grid" data-cat="hot">
+                  <button
+                    class="product-item"
+                    data-price="2.50"
+                    data-name="Espresso"
+                  >
+                    Espresso
+                  </button>
+                  <button
+                    class="product-item"
+                    data-price="4.50"
+                    data-name="Latte"
+                  >
+                    Latte
+                  </button>
+                  <button
+                    class="product-item"
+                    data-price="4.25"
+                    data-name="Cappuccino"
+                  >
+                    Cappuccino
+                  </button>
+                  <button
+                    class="product-item"
+                    data-price="2.00"
+                    data-name="Tea"
+                  >
+                    Tea
+                  </button>
+                </div>
+                <div class="product-grid hidden" data-cat="cold">
+                  <button
+                    class="product-item"
+                    data-price="4.75"
+                    data-name="Iced Coffee"
+                  >
+                    Iced Coffee
+                  </button>
+                  <button
+                    class="product-item"
+                    data-price="5.50"
+                    data-name="Smoothie"
+                  >
+                    Smoothie
+                  </button>
+                </div>
+                <div class="product-grid hidden" data-cat="food">
+                  <button
+                    class="product-item"
+                    data-price="3.00"
+                    data-name="Croissant"
+                  >
+                    Croissant
+                  </button>
+                  <button
+                    class="product-item"
+                    data-price="6.50"
+                    data-name="Sandwich"
+                  >
+                    Sandwich
+                  </button>
+                </div>
+              </div>
             </div>
-            
-        </section>
+          </div>
+        </div>
 
-        <!-- ===== PAYMENT OVERLAY (New Element) ===== -->
-        <section class="payment-overlay" id="payment-overlay">
-            <div class="overlay-content-wrapper">
-                <div class="overlay-title">Select Payment Method & Options</div>
-                
-                <!-- Discount Buttons are now inside the payment overlay -->
-                <div class="discount-overlay-grid">
-                    <button id="btn-overlay-discount-percent">DISCOUNT %</button>
-                    <button id="btn-overlay-discount-amount">DISCOUNT R</button>
+        <div id="layout-B" class="menu-layout hidden">
+          <!-- Option B: Tabbed categories -->
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-tab="hot">
+                Hot Beverages
+              </button>
+              <button class="tab-btn" data-tab="cold">Cold Drinks</button>
+              <button class="tab-btn" data-tab="food">Food & Bakery</button>
+            </div>
+            <div class="tab-content">
+              <div class="product-grid" data-tab="hot">
+                <button
+                  class="product-item"
+                  data-price="2.50"
+                  data-name="Espresso"
+                >
+                  Espresso
+                </button>
+                <button
+                  class="product-item"
+                  data-price="4.50"
+                  data-name="Latte"
+                >
+                  Latte
+                </button>
+              </div>
+              <div class="product-grid hidden" data-tab="cold">
+                <button
+                  class="product-item"
+                  data-price="4.75"
+                  data-name="Iced Coffee"
+                >
+                  Iced Coffee
+                </button>
+                <button
+                  class="product-item"
+                  data-price="5.50"
+                  data-name="Smoothie"
+                >
+                  Smoothie
+                </button>
+              </div>
+              <div class="product-grid hidden" data-tab="food">
+                <button
+                  class="product-item"
+                  data-price="3.00"
+                  data-name="Croissant"
+                >
+                  Croissant
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="layout-C" class="menu-layout hidden">
+          <!-- Option C: Featured tiles + compact list -->
+          <div class="featured-tiles">
+            <button
+              class="feature product-item"
+              data-price="5.50"
+              data-name="Smoothie"
+            >
+              Smoothie
+            </button>
+            <button
+              class="feature product-item"
+              data-price="4.50"
+              data-name="Latte"
+            >
+              Latte
+            </button>
+          </div>
+          <div class="compact-list">
+            <button class="product-item" data-price="2.50" data-name="Espresso">
+              Espresso
+            </button>
+            <button
+              class="product-item"
+              data-price="3.00"
+              data-name="Croissant"
+            >
+              Croissant
+            </button>
+            <button class="product-item" data-price="2.00" data-name="Tea">
+              Tea
+            </button>
+          </div>
+        </div>
+
+        <!-- footer/till (unchanged) -->
+        <footer class="menu-top" aria-label="Till info">
+          <div class="menu-top-row">
+            <span class="pos-name">Corner Cafe — Terminal 02</span>
+            <span id="till-name">Till 02</span>
+            <span id="shift-info">Shift A</span>
+            <span id="store-status">Open</span>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ===== PAYMENT OVERLAY (left-side modal, overlays Product menu) ===== -->
+      <!-- overlay hidden by default (app.js controls display inline) -->
+      <section
+        class="payment-overlay"
+        id="payment-overlay"
+        style="display: none"
+        aria-hidden="true"
+      >
+        <div class="overlay-left-wrapper">
+          <header class="overlay-left-header">
+            <h3>Payment Options</h3>
+            <button
+              id="btn-cancel-payment"
+              class="overlay-close"
+              aria-label="Close payment"
+            >
+              ✕
+            </button>
+          </header>
+
+          <div class="overlay-left-body">
+            <div class="overlay-button-grid">
+              <button id="btn-overlay-cash" class="pay-btn">CASH</button>
+              <button id="btn-overlay-card" class="pay-btn">CARD</button>
+              <button id="btn-overlay-voucher" class="pay-btn">VOUCHER</button>
+              <!-- single discount entry point — payments.js expects id="btn-pay-discount" -->
+              <button id="btn-pay-discount" class="pay-btn pay-discount">
+                DISCOUNT
+              </button>
+            </div>
+            <div class="overlay-help">
+              <small
+                >Choose payment or apply a single discount for this
+                transaction.</small
+              >
+            </div>
+          </div>
+
+          <!-- Discount modal shown on top of this left overlay (payments.js will toggle) -->
+          <div id="discount-modal-container" class="hidden" aria-hidden="true">
+            <div class="discount-modal-backdrop" data-action="backdrop"></div>
+            <div
+              class="discount-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="discount-modal-title"
+            >
+              <header class="discount-modal-header">
+                <h3 id="discount-modal-title">Apply Discount</h3>
+              </header>
+              <div class="discount-modal-body">
+                <div class="discount-type-select">
+                  <label
+                    ><input
+                      type="radio"
+                      name="discount-type"
+                      value="amount"
+                      id="discount-type-amount"
+                    />
+                    Amount (R)</label
+                  >
+                  <label
+                    ><input
+                      type="radio"
+                      name="discount-type"
+                      value="percentage"
+                      id="discount-type-percent"
+                    />
+                    Percentage (%)</label
+                  >
+                </div>
+                <div class="discount-inputs">
+                  <div
+                    class="discount-input discount-input-amount hidden"
+                    id="discount-input-amount"
+                  >
+                    <label for="discount-amount-input">Enter amount (R)</label>
+                    <input
+                      id="discount-amount-input"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="0.00"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                    />
+                  </div>
+                  <div
+                    class="discount-input discount-input-percent hidden"
+                    id="discount-input-percent"
+                  >
+                    <label for="discount-percent-input"
+                      >Enter percent (%)</label
+                    >
+                    <input
+                      id="discount-percent-input"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      placeholder="0"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                    />
+                  </div>
+                </div>
+              </div>
+              <footer class="discount-modal-footer">
+                <button id="btn-discount-apply" class="btn-apply">Apply</button>
+                <button id="btn-discount-cancel" class="btn-cancel">
+                  Cancel
+                </button>
+              </footer>
+            </div>
+          </div>
+
+          <!-- Payment amount / PIN style numeric keypad (pops on top of the left overlay) -->
+          <div id="payment-amount-modal" class="hidden" aria-hidden="true">
+            <div class="amount-modal-backdrop"></div>
+            <div
+              class="amount-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="amount-modal-title"
+            >
+              <header class="amount-modal-header">
+                <h3 id="amount-modal-title">Enter Amount</h3>
+                <div class="amount-method" id="amount-method">—</div>
+              </header>
+              <div class="amount-modal-body">
+                <div id="amount-display" class="amount-display">R0.00</div>
+
+                <div class="keypad-grid">
+                  <button data-key="1">1</button>
+                  <button data-key="2">2</button>
+                  <button data-key="3">3</button>
+                  <button data-key="4">4</button>
+                  <button data-key="5">5</button>
+                  <button data-key="6">6</button>
+                  <button data-key="7">7</button>
+                  <button data-key="8">8</button>
+                  <button data-key="9">9</button>
+                  <button data-key=".">.</button>
+                  <button data-key="0">0</button>
+                  <button data-key="←">←</button>
                 </div>
 
-                <div class="overlay-button-grid">
-                    <button id="btn-overlay-cash">CASH</button>
-                    <button id="btn-overlay-card">CARD</button>
-                    <button id="btn-overlay-voucher">VOUCHER / GIFT CARD</button>
+                <div class="keypad-actions">
+                  <button data-key="C" class="key-clear">Clear</button>
+                  <button data-key="CANCEL" class="key-cancel">Cancel</button>
+                  <button data-key="OK" class="key-ok">OK</button>
                 </div>
-                
-                <button id="btn-cancel-payment">CANCEL TRANSACTION</button>
+              </div>
             </div>
-        </section>
+          </div>
+          <!-- end amount modal -->
+        </div>
+      </section>
 
+      <!-- ===== RIGHT SIDE: TRANSACTION WINDOW (45% width) ===== -->
+      <section class="transaction-section">
+        <div class="transaction-header-info">
+          <div id="cashier-info">Cashier: John Smith</div>
+          <div id="transaction-id-info">Trans #: 00000</div>
+          <div id="datetime-info">Date: -- | Time: --</div>
+        </div>
 
-        <!-- ===== RIGHT SIDE: TRANSACTION WINDOW (45% width) ===== -->
-        <section class="transaction-section">
-            
-            <!-- Transaction Details -->
-            <div class="transaction-header-info">
-                <!-- This area displays the Cashier, Transaction ID, and the real-time Date | Time. -->
-                <div id="cashier-info">Cashier: John Smith</div>
-                <div id="transaction-id-info">Trans #: 123456</div>
-                <div id="datetime-info">Date: 11/18/2025 | Time: 5:02 PM</div>
-            </div>
+        <ul class="item-list-view">
+          <!-- items appended here -->
+        </ul>
 
-            <!-- The list where items are "rung up" -->
-            <ul class="item-list-view">
-                <!-- Items are added here dynamically -->
-            </ul>
+        <div class="transaction-summary">
+          <div class="total-line">
+            <span>Subtotal:</span>
+            <span id="subtotal">R0.00</span>
+          </div>
+          <div class="total-line discount-line">
+            <span>Discount:</span>
+            <span id="discount-value">R0.00</span>
+          </div>
+          <div class="total-line">
+            <span>Tax (8%):</span>
+            <span id="tax">R0.00</span>
+          </div>
+          <div class="total-line grand-total">
+            <span>TOTAL DUE:</span>
+            <span id="grand-total">R0.00</span>
+          </div>
+        </div>
 
-            <!-- Totals and Payment Summary -->
-            <div class="transaction-summary">
-                <div class="total-line">
-                    <span>Subtotal:</span>
-                    <span id="subtotal">R0.00</span>
-                </div>
-                <div class="total-line discount-line">
-                    <span>Discount:</span>
-                    <span id="discount-value">R0.00</span>
-                </div>
-                <div class="total-line">
-                    <span>Tax (8%):</span>
-                    <span id="tax">R0.00</span>
-                </div>
-                <div class="total-line grand-total">
-                    <span>TOTAL DUE:</span>
-                    <span id="grand-total">R0.00</span>
-                </div>
-            </div>
-            
-            <!-- Action Buttons Container -->
-            <div class="action-buttons" id="action-buttons-container">
-                <!-- Content injected by JavaScript (Void, Transact) -->
-            </div>
-        </section>
-
+        <!-- Action Buttons container (app.js will populate & show discount input here) -->
+        <div class="action-buttons" id="action-buttons-container"></div>
+      </section>
     </div>
 
     <script src="js/app.js"></script>
     <script src="js/payments.js"></script>
-</body>
+  </body>
 </html>
