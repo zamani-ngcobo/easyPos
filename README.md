@@ -1,0 +1,2 @@
+# easyPos
+Light Weight POS
