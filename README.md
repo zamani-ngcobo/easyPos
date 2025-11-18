@@ -1,2 +1,2 @@
 # easyPos
-Light Weight POS
+Light Weight Point of Sale.
